@@ -18,11 +18,19 @@ export class RequestRefundDto
       required: true,
     })
     description: string;
+
+    @ApiProperty({
+      description: 'Id do empregado à pedir a devolução',
+      type: Number,
+      required: true,
+    })
+    employeeId: number;
+
     @ApiProperty({
         description: 'Valor da devolução',
         type: Number,
         required: true,
       })
-      price: number;
+    price: number;
 }
   

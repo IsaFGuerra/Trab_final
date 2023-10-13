@@ -27,6 +27,7 @@
     "@prisma/client": "^5.4.2",
     "@vee-validate/zod": "^4.11.8",
     "nestjs-zod": "^3.0.0",
+    "pdfkit": "^0.13.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "zod": "^3.22.4"

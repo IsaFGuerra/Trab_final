@@ -11,7 +11,12 @@ export class RequestRefundService {
         data: {
             description: body.description,
             price: body.price,
-            SolicitateDate: new Date(),
+            solicitateDate: new Date(),
+            employee: {
+              connect: {
+                id: body.employeeId,
+              },
+            }
         }
     });
     return newRefund;
