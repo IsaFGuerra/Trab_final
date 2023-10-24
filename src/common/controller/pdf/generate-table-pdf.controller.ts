@@ -1,10 +1,10 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { GenerateTablePDFDto } from "src/common/dtos/pdf/generate-table.dto";
-import { GeneratePDFService } from "src/common/service/pdf/generate-pdf.service";
+import { GenerateTablePDFService } from "src/common/service/pdf/generate-pdf.service";
 
 @Controller('/pdf')
-export class GeneratePDFTableController{
-    constructor(private readonly service: GeneratePDFService) {}
+export class GenerateTablePDFController{
+    constructor(private readonly service: GenerateTablePDFService) {}
     
     @Post()
     async generatePDF(@Body() body: GenerateTablePDFDto) {

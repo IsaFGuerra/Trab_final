@@ -13,6 +13,7 @@ export class UpdateRefundService{
                 },
                 data: {
                     status: body.status,
+                    modificationDate: new Date()
                 }
             });
             return newStatus;

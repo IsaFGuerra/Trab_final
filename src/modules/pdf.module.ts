@@ -1,13 +1,14 @@
 import { Module } from "@nestjs/common";
 import { PrismaModule } from "./database.module";
-import { GeneratePDFService } from "src/common/service/pdf/generate-pdf.service";
-import { GeneratePDFTableController } from "src/common/controller/pdf/generate-table-pdf.controller";
-import { ContentPDFService } from "src/common/service/pdf/table-pdf.service";
-import { PeriodListService } from "src/common/service/pdf/period-pdf.service";
+import { GenerateTablePDFService } from "src/common/service/pdf/generate-pdf.service";
+import { GenerateTablePDFController } from "src/common/controller/pdf/generate-table-pdf.controller";
+import { ContentTablePDFService } from "src/common/service/pdf/content-table-pdf.service";
+import { reportPeriodListService } from "src/common/service/pdf/reportPeriod-pdf.service";
+import { GenerateStrokeService } from "src/common/service/pdf/generate-stroke.service";
 
 @Module({
     imports: [PrismaModule],
-    controllers: [GeneratePDFTableController],
-    providers: [GeneratePDFService, ContentPDFService, PeriodListService],
+    controllers: [GenerateTablePDFController],
+    providers: [GenerateTablePDFService, ContentTablePDFService, reportPeriodListService, GenerateStrokeService],
   })
   export class PDFModule {}

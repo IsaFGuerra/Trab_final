@@ -1,21 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../database.service";
 import { GenerateTablePDFDto } from "src/common/dtos/pdf/generate-table.dto";
+import { GenerateStrokeService } from "./generate-stroke.service";
 
 @Injectable()
-export class ContentPDFService{
-    constructor(private readonly dataBase: PrismaService) {}
+export class ContentTablePDFService{
+    constructor(private readonly dataBase: PrismaService, private readonly service: GenerateStrokeService) {}
     async header(doc
       // : PDFKit.PDFDocument
       , body: GenerateTablePDFDto) {
-      doc.addPage();
+      // doc.addPage();
       
       //titulo
       doc
       .font('Helvetica-Bold')
-      .fillColor('black')
+      .fillColor('#ED820E')
       .fontSize(15)
-      .text('Relatório de Reembolsos:', 110, 65);
+      .text('Relatório de Reembolsos:', 110, 50);
 
       //----------------------------------------
 
@@ -31,7 +32,7 @@ export class ContentPDFService{
           solicitateDate: {
             gt: body.startDate
           },
-          approvedDate: {
+          modificationDate: {
             lt: body.endDate
           }
        },
@@ -47,7 +48,7 @@ export class ContentPDFService{
       .font('Helvetica-Bold')
       .fillColor('black')
       .fontSize(11)
-      .text(preco.toString(), 100, 300);
+      .text(preco.toString(), 347, 100);
 
       //----------------------------------------
 
@@ -63,7 +64,7 @@ export class ContentPDFService{
           solicitateDate: {
             gt: body.startDate
           },
-          rejectedDate: {
+          modificationDate: {
             lt: body.endDate
           }
         }
@@ -73,7 +74,7 @@ export class ContentPDFService{
       .font('Helvetica-Bold')
       .fillColor('black')
       .fontSize(11)
-      .text(negados.toString(), 210, 65);
+      .text(negados.toString(), 347, 150);
 
       //----------------------------------------
 
@@ -89,7 +90,7 @@ export class ContentPDFService{
           solicitateDate: {
             gt: body.startDate
           },
-          approvedDate: {
+          modificationDate: {
             lt: body.endDate
           }
         },
@@ -102,7 +103,7 @@ export class ContentPDFService{
       .font('Helvetica-Bold')
       .fillColor('black')
       .fontSize(11)
-      .text(percentApprove.toString(), 210, 65);
+      .text(percentApprove.toString(), 340, 200);
 
       //----------------------------------------
       
@@ -110,7 +111,7 @@ export class ContentPDFService{
       .font('Helvetica-Bold')
       .fillColor('black')
       .fontSize(11)
-      .text('Porcentagem Negados:', 90, 200);
+      .text('Porcentagem Negados:', 90, 250);
 
       const percentRejected = await this.dataBase.refund.count({
         where: {
@@ -118,7 +119,7 @@ export class ContentPDFService{
           solicitateDate: {
             gt: body.startDate
           },
-          approvedDate: {
+          modificationDate: {
             lt: body.endDate
           }
         },
@@ -131,7 +132,7 @@ export class ContentPDFService{
       .font('Helvetica-Bold')
       .fillColor('black')
       .fontSize(11)
-      .text(percentDenied.toString(), 210, 65);
+      .text(percentDenied.toString(), 340, 250);
 
       //----------------------------------------
 
@@ -139,7 +140,7 @@ export class ContentPDFService{
       .font('Helvetica-Bold')
       .fillColor('black')
       .fontSize(11)
-      .text('Quantidade de Reembolsos Aprovados:', 90, 250);
+      .text('Quantidade de Reembolsos Aprovados:', 90, 300);
       
       const qntApproved = await this.dataBase.refund.count({
         where: {
@@ -147,7 +148,7 @@ export class ContentPDFService{
           solicitateDate: {
             gt: body.startDate
           },
-          approvedDate: {
+          modificationDate: {
             lt: body.endDate
           }
         },
@@ -157,7 +158,7 @@ export class ContentPDFService{
       .font('Helvetica-Bold')
       .fillColor('black')
       .fontSize(11)
-      .text(qntApproved.toString(), 210, 65);
+      .text(qntApproved.toString(), 347, 300);
 
       //----------------------------------------
 
@@ -165,7 +166,7 @@ export class ContentPDFService{
       .font('Helvetica-Bold')
       .fillColor('black')
       .fontSize(11)
-      .text('Quantidade de Reembolsos Negados:', 90, 250);
+      .text('Quantidade de Reembolsos Negados:', 90, 350);
       
       const qntRejected = await this.dataBase.refund.count({
         where: {
@@ -173,7 +174,7 @@ export class ContentPDFService{
           solicitateDate: {
             gt: body.startDate
           },
-          approvedDate: {
+          modificationDate: {
             lt: body.endDate
           }
         },
@@ -183,6 +184,16 @@ export class ContentPDFService{
       .font('Helvetica-Bold')
       .fillColor('black')
       .fontSize(11)
-      .text(qntRejected.toString(), 210, 65);
+      .text(qntRejected.toString(), 347, 350);
+
+      await this.service.generateHL(doc, 87, 375, 125);
+      await this.service.generateHL(doc, 87, 375, 175);
+      await this.service.generateHL(doc, 87, 375, 225);
+      await this.service.generateHL(doc, 87, 375, 275);
+      await this.service.generateHL(doc, 87, 375, 325);
+      await this.service.generateHL(doc, 87, 375, 375);
+      await this.service.generateVL(doc, 325, 90, 385); 
+
+
     }
     }

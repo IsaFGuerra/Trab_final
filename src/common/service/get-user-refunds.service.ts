@@ -16,8 +16,7 @@ export class GetUserRefundsService {
                 price: true,
                 status: true,
                 solicitateDate: true,
-                approvedDate: true,
-                rejectedDate: true,
+                modificationDate: true
             }
         });
         return userRefounds;

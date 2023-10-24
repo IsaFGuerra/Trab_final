@@ -1,16 +1,13 @@
 import { Body, Injectable } from "@nestjs/common";
 import { PrismaService } from "../database.service";
-import PDFDocument from 'pdfkit';
-import fs from 'fs';
-import { ContentPDFService } from "./table-pdf.service";
-import { PeriodListService } from "./period-pdf.service";
 import { v4 as uuid } from 'uuid';
 import { GenerateTablePDFDto } from "src/common/dtos/pdf/generate-table.dto";
+import { ContentTablePDFService } from "./content-table-pdf.service";
 
 @Injectable()
-export class GeneratePDFService{
+export class GenerateTablePDFService{
     constructor(private readonly dataBase: PrismaService,
-      private readonly table: ContentPDFService,
+      private readonly table: ContentTablePDFService,
       ) {}
     async generatePDF(body: GenerateTablePDFDto) {
       const PDFDocument = require('pdfkit');

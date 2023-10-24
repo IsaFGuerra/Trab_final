@@ -15,7 +15,6 @@ model User {
 
   Manager  Manager?
   Employee Employee?
-
 }
 
 model Manager {
@@ -33,15 +32,14 @@ model Employee {
 }
 
 model Refund {
-  id             Int       @id @default(autoincrement())
-  description    String
-  price          Int
-  solicitateDate DateTime? @default(now())
-  status         String    @default("PENDING")
-  approvedDate   DateTime?
-  rejectedDate   DateTime?
-  manager        Manager?  @relation(fields: [managerId], references: [id])
-  managerId      Int?
-  employee       Employee? @relation(fields: [employeeId], references: [id])
-  employeeId     Int?
+  id              Int       @id @default(autoincrement())
+  description     String
+  price           Int
+  solicitateDate  DateTime? @default(now())
+  status          String    @default("PENDING")
+  modificationDate DateTime?
+  manager         Manager?  @relation(fields: [managerId], references: [id])
+  managerId       Int?
+  employee        Employee? @relation(fields: [employeeId], references: [id])
+  employeeId      Int?
 }
