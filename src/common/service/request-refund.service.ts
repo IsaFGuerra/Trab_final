@@ -8,16 +8,16 @@ export class RequestRefundService {
 
   async createRefund(body: RequestRefundDto) {
     const newRefund = await this.dataBase.refund.create({
-        data: {
-            description: body.description,
-            price: body.price,
-            solicitateDate: new Date(),
-            employee: {
-              connect: {
-                id: body.employeeId,
-              },
-            }
-        }
+      data: {
+        description: body.description,
+        price: body.price,
+        solicitateDate: new Date(),
+        employee: {
+          connect: {
+            id: body.employeeId,
+          },
+        },
+      },
     });
     return newRefund;
   }

@@ -6,10 +6,10 @@ export class GetUserRefundsService {
     constructor(private readonly dataBase: PrismaService) {}
 
     //puxo do currentUser?
-    async getRefunds(param: number) {
+    async getRefunds(body: number) {
         const userRefounds = await this.dataBase.refund.findMany({
             where: {
-                employeeId: param,
+                employeeId: body,
             },
             select: {
                 description: true,

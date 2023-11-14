@@ -2,10 +2,11 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../database.service";
 import { ListPDFDto } from "src/common/dtos/pdf/list-pdf.dto";
 import { v4 as uuid } from 'uuid';
+import { ContentListPDFService } from "./content-list.service";
 
 @Injectable()
-export class reportPeriodListService{
-    constructor(private readonly dataBase: PrismaService,
+export class ListRefundsPDFService{
+    constructor(private readonly dataBase: PrismaService, private readonly service: ContentListPDFService
       ) {}
     async content(body: ListPDFDto) {
         const PDFDocument = require('pdfkit');
@@ -22,35 +23,7 @@ export class reportPeriodListService{
           },
         });
 
-
-      doc
-      .font('Helvetica-Bold')
-      .fillColor('black')
-      .fontSize(11)
-      .text('Valor Total de Aprovados:', 90, 100);
-
-      const aprovados = await this.dataBase.refund.findMany({
-        where: {
-            status: 'APPROVED',
-            solicitateDate: {
-              gt: body.startDate
-            },
-            modificationDate: {
-              lt: body.endDate
-            }
-         },
-         select: {
-          description: true,
-          price: true,
-          solicitateDate: true,
-          modificationDate: true,
-          manager: {
-            select: {
-              id: true,
-            }
-          }
-         }
-         })
+        await this.service.contentList(doc, body);
   
         const filename = uuid();
         const pdf = 'pdf';
