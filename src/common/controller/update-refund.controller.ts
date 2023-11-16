@@ -8,6 +8,6 @@ export class UpdateRefundController{
     
     @Put()
     async createRefund( @Body() body: UpdateRefundDto) {
-       return await this.service.approve(body);
+       return await this.service.update(body);
     }
 }

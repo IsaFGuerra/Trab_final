@@ -1,17 +1,21 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "./database.service";
+import { getRefundDto } from "../dtos/get-refund.dto";
+import { type } from "os";
 
 @Injectable()
 export class GetUserRefundsService {
     constructor(private readonly dataBase: PrismaService) {}
 
-    //puxo do currentUser?
-    async getRefunds(body: number) {
+    async getRefunds(id: getRefundDto) {
         const userRefounds = await this.dataBase.refund.findMany({
             where: {
-                employeeId: body,
+                employee: {
+                    id: id.id,
+                }
             },
             select: {
+                id: true,
                 description: true,
                 price: true,
                 status: true,

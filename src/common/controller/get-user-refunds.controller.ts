@@ -9,6 +9,6 @@ export class GetUserRefoundsController{
     
     @Get()
     async getRefunds(@Body() id: getRefundDto) {
-       return await this.service.getRefunds(+id);
+       return await this.service.getRefunds(id);
     }
 }

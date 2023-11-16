@@ -6,7 +6,7 @@ import { UpdateRefundDto } from '../dtos/update-refund.dto';
 export class UpdateRefundService {
   constructor(private readonly dataBase: PrismaService) {}
 
-  async approve(body: UpdateRefundDto) {
+  async update(body: UpdateRefundDto) {
     const newStatus = await this.dataBase.refund.update({
       where: {
         id: body.id,

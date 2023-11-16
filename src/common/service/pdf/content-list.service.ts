@@ -10,12 +10,12 @@ export class ContentListPDFService{
         const aprovados = await this.dataBase.refund.findMany({
             where: {
                 status: 'APPROVED',
-                // solicitateDate: {
-                //   gt: body.startDate
-                // },
-                // modificationDate: {
-                //   lt: body.endDate
-                // }
+                solicitateDate: {
+                  gt: body.startDate
+                },
+                modificationDate: {
+                  lt: body.endDate
+                }
              },
              select: {
               description: true,
