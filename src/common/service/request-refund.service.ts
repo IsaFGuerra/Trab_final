@@ -6,7 +6,10 @@ import { RequestRefundDto } from '../dtos/create-refund.dto';
 export class RequestRefundService {
   constructor(private readonly dataBase: PrismaService) {}
 
-  async createRefund(body: RequestRefundDto) {
+  async createRefund(body: RequestRefundDto, perfil : string) {
+    if (perfil !== 'EMPLOYEE') {
+      throw new Error('Acesso não autorizado');
+    }
     const newRefund = await this.dataBase.refund.create({
       data: {
         description: body.description,

@@ -8,7 +8,7 @@ export class GetUserRefoundsController{
     constructor(private readonly service: GetUserRefundsService) {}
     
     @Get()
-    async getRefunds(@Body() id: getRefundDto) {
-       return await this.service.getRefunds(id);
+    async getRefunds(@Body() id: getRefundDto, @Param('perfil') perfil: String) {
+       return await this.service.getRefunds(id, perfil);
     }
 }

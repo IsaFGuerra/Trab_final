@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Param, Post } from "@nestjs/common";
 import { ListPDFDto } from "src/common/dtos/pdf/list-pdf.dto";
 import { ListRefundsPDFService } from "src/common/service/pdf/reportPeriod-pdf.service";
 
@@ -6,10 +6,10 @@ import { ListRefundsPDFService } from "src/common/service/pdf/reportPeriod-pdf.s
 export class listRefundsPDFController{
     constructor(private readonly service: ListRefundsPDFService){}
    
-    @Post()
-    async list(@Body() body: ListPDFDto){
+    @Post("/:Perfil")
+    async list(@Body() body: ListPDFDto, @Param("Perfil") perfil: string){
         try{
-            const list = await this.service.content(body)
+            const list = await this.service.content(body, perfil)
             // return list
             return {
                 // pdf,

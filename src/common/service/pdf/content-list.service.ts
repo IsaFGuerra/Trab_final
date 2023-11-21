@@ -1,21 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../database.service";
 import { ListPDFDto } from "src/common/dtos/pdf/list-pdf.dto";
+import { GenerateStrokeService } from "./generate-stroke.service";
 
 @Injectable()
 export class ContentListPDFService{
-    constructor(private readonly dataBase: PrismaService) {}
+    constructor(private readonly dataBase: PrismaService, private readonly service: GenerateStrokeService) {}
         
     async contentList(doc, body: ListPDFDto){
         const aprovados = await this.dataBase.refund.findMany({
             where: {
                 status: 'APPROVED',
-                solicitateDate: {
-                  gt: body.startDate
-                },
-                modificationDate: {
-                  lt: body.endDate
-                }
+                // solicitateDate: {
+                //   gt: body.startDate
+                // },
+                // modificationDate: {
+                //   lt: body.endDate
+                // }
              },
              select: {
               description: true,
@@ -34,20 +35,44 @@ export class ContentListPDFService{
             const meses = [
               'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
           ];
-            let aux = 100;
+
+            doc
+                .font('Helvetica-Bold')
+                .fillColor('black')
+                .fontSize(11)
+
+                .text("Descrição:", 40, 40);
+
+                doc
+                .font('Helvetica-Bold')
+                .fillColor('black')
+                .fontSize(11)
+                .text("Preço:", 160, 40);
+                doc
+                .font('Helvetica-Bold')
+                .fillColor('black')
+                .fontSize(11)
+                .text("Data de Solicitação:", 280, 40);
+                doc
+                .font('Helvetica-Bold')
+                .fillColor('black')
+                .fontSize(11)
+                .text("Data de Modificação:", 400, 40);        
+
+            let aux = 80;
             for (const key in aprovados) {
                 // (_, y, x)
                 doc
                     .font('Helvetica-Bold')
                     .fillColor('black')
                     .fontSize(11)
-                    .text(aprovados[key].description, 10, aux + 50);
+                    .text(aprovados[key].description, 40, aux + 0);
 
                 doc
                     .font('Helvetica-Bold')
                     .fillColor('black')
                     .fontSize(11)
-                    .text(aprovados[key].price, 60, aux + 100);
+                    .text(aprovados[key].price, 160, aux + 0);
 
                     const dataObj = new Date(aprovados[key].solicitateDate);
                     const dia = dataObj.getDate();
@@ -60,7 +85,7 @@ export class ContentListPDFService{
                     .font('Helvetica-Bold')
                     .fillColor('black')
                     .fontSize(11)
-                    .text(correctData, 110, aux + 150);
+                    .text(correctData, 280, aux + 0);
 
                     const dataObj2 = new Date(aprovados[key].modificationDate);
                     const dia2 = dataObj.getDate();
@@ -73,9 +98,20 @@ export class ContentListPDFService{
                     .font('Helvetica-Bold')
                     .fillColor('black')
                     .fontSize(11)
-                    .text(correctData2, 160, aux + 200);
+                    .text(correctData2, 400, aux + 0);
 
-                aux += 100;
-            }
+                aux += 40;
+
+                await this.service.generateHL(doc, 30, 520, 60);
+                await this.service.generateHL(doc, 30, 520, 105);
+                await this.service.generateHL(doc, 30, 520, 145);
+                await this.service.generateHL(doc, 30, 520, 185);
+
+                await this.service.generateVL(doc, 140, 230, 30); 
+                await this.service.generateVL(doc, 260, 230, 30); 
+                await this.service.generateVL(doc, 390, 230, 30); 
+
+              }
+
     }
 }

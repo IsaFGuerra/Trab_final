@@ -5,7 +5,10 @@ import { PrismaService } from './database.service';
 export class ListToManagerService {
   constructor(private readonly dataBase: PrismaService) {}
 
-  async listToManager() {
+  async listToManager(perfil: String) {
+    if (perfil !== 'MANAGER') {
+      throw new Error('Acesso não autorizado');
+    }
     const toManager = await this.dataBase.refund.findMany({
       where: {
         status: 'PENDING',

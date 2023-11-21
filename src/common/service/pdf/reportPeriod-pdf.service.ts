@@ -8,7 +8,10 @@ import { ContentListPDFService } from "./content-list.service";
 export class ListRefundsPDFService{
     constructor(private readonly dataBase: PrismaService, private readonly service: ContentListPDFService
       ) {}
-    async content(body: ListPDFDto) {
+    async content(body: ListPDFDto, perfil: string) {
+      if (perfil !== 'MANAGER') {
+        throw new Error('Acesso não autorizado');
+      }
         const PDFDocument = require('pdfkit');
         const fs = require('fs');
   

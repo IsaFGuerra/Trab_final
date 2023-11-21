@@ -10,7 +10,10 @@ export class GenerateTablePDFService {
     private readonly dataBase: PrismaService,
     private readonly table: ContentTablePDFService,
   ) {}
-  async generatePDF(body: GenerateTablePDFDto) {
+  async generatePDF(body: GenerateTablePDFDto, perfil: string) {
+    if (perfil !== 'MANAGER') {
+      throw new Error('Acesso não autorizado');
+    }
     const PDFDocument = require('pdfkit');
     const fs = require('fs');
 
