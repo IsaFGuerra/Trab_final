@@ -7,14 +7,11 @@ import { type } from "os";
 export class GetUserRefundsService {
     constructor(private readonly dataBase: PrismaService) {}
 
-    async getRefunds(id: getRefundDto, perfil: String) {
-        if (perfil != 'MANAGER') {
-            throw new Error('Acesso não autorizado');
-        }
+    async getRefunds(id: number) {
         const userRefounds = await this.dataBase.refund.findMany({
             where: {
                 employee: {
-                    id: id.id,
+                    id: id
                 }
             },
             select: {

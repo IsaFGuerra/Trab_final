@@ -6,11 +6,12 @@ import { ListRefundsPDFService } from "src/common/service/pdf/reportPeriod-pdf.s
 export class listRefundsPDFController{
     constructor(private readonly service: ListRefundsPDFService){}
    
-    @Post("/:Perfil")
-    async list(@Body() body: ListPDFDto, @Param("Perfil") perfil: string){
+    @Post()
+    async list(@Body() body: ListPDFDto){
         try{
-            const list = await this.service.content(body, perfil)
+            const list = await this.service.content(body)
             // return list
+
             return {
                 // pdf,
                 // uri: 'http://192.168.1.22:8080/public/' + pdf,

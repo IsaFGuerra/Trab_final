@@ -8,15 +8,25 @@ export class ContentListPDFService{
     constructor(private readonly dataBase: PrismaService, private readonly service: GenerateStrokeService) {}
         
     async contentList(doc, body: ListPDFDto){
+      try{
+
+      console.log('body', body)
+
+      const teste1 = new Date(body.startDate);
+      const teste2 = new Date(body.endDate);
+
+      console.log(typeof(teste1))
+      console.log(teste2)
+
         const aprovados = await this.dataBase.refund.findMany({
             where: {
-                status: 'APPROVED',
-                // solicitateDate: {
-                //   gt: body.startDate
-                // },
-                // modificationDate: {
-                //   lt: body.endDate
-                // }
+                // status: 'APPROVED',
+                solicitateDate: {
+                  gt: teste1
+                },
+                modificationDate: {
+                  lt: teste2
+                }
              },
              select: {
               description: true,
@@ -112,6 +122,9 @@ export class ContentListPDFService{
                 await this.service.generateVL(doc, 390, 230, 30); 
 
               }
-
+            } catch (error) {
+              console.log(error)
+              throw new Error(error)
+            }
     }
 }

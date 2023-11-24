@@ -7,8 +7,8 @@ import { getRefundDto } from "../dtos/get-refund.dto";
 export class GetUserRefoundsController{
     constructor(private readonly service: GetUserRefundsService) {}
     
-    @Get()
-    async getRefunds(@Body() id: getRefundDto, @Param('perfil') perfil: String) {
-       return await this.service.getRefunds(id, perfil);
+    @Get("/:id")
+    async getRefunds(@Param("id") id: number) {
+       return await this.service.getRefunds(+id);
     }
 }
